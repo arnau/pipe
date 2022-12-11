@@ -2,13 +2,21 @@ name: build
 on: [workflow_dispatch, push, pull_request]
 jobs:
   build:
-    name: CI
+    name: Build
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
-        rust: [stable, beta]
-        os: [ubuntu-latest, windows-latest, macOS-latest]
+        platform:
+          - target: x86_64-pc-windows-msvc,
+            os: windows-latest,
+            toolchain: '1.61.0'
+          - target: x86_64-unknown-linux-gnu,
+            os: ubuntu-latest,
+            toolchain: '1.59.0'
+          - target: x86_64-apple-darwin,
+            os: macos-latest,
+            toolchain: '1.59.0'
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v3
@@ -16,8 +24,14 @@ jobs:
           node-version: '14'
       - uses: actions-rs/toolchain@v1
         with:
-          toolchain: ${{ matrix.rust }}
-          profile: minimal
+          toolchain: ${{ matrix.platform.toolchain }}
+          target: ${{ matrix.platform.os }}
           override: true
+          default: true
+      - name: install Linux dependencies
+        if: contains(matrix.platform.target, 'unknown-linux')
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y webkit2gtk-4.0 libayatana-appindicator3-dev
       - run: npm install
       - run: npm run tauri build
