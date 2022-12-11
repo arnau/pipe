@@ -19,12 +19,14 @@ serde_json = "1.0"
 serde = { version = "1.0", features = ["derive"] }
 tauri = { version = "1.2.2", features = [] }
 tokio = { version = "1", features = ["full"] }
-surrealdb = { version = "1.0.0-beta.8", default-features = false, features = [
-  "parallel",
-  "kv-mem",
-  "kv-rocksdb",
-] }
+# surrealdb = { version = "1.0.0-beta.8", default-features = false, features = [
+#   "parallel",
+#   "kv-mem",
+#   "kv-rocksdb",
+# ] }
 anyhow = "1.0"
+rocksdb = { version = "0.19.0" }
+# rocksdb = { version = "0.19.0", default-features = false, features = ["zlib"] }
 
 
 [features]
