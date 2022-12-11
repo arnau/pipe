@@ -22,6 +22,7 @@ jobs:
       - uses: dtolnay/rust-toolchain@stable
         with:
           target: ${{ matrix.platform.os }}
+          components: rust-src
       - name: install Linux dependencies
         if: contains(matrix.platform.target, 'unknown-linux')
         run: |
