@@ -8,26 +8,23 @@ jobs:
       fail-fast: false
       matrix:
         platform:
-          - { target: x86_64-pc-windows-msvc,
-            os: windows-latest,
-            toolchain: '1.61.0' }
-          - { target: x86_64-unknown-linux-gnu,
-            os: ubuntu-latest,
-            toolchain: '1.59.0' }
-          - { target: x86_64-apple-darwin,
-            os: macos-latest,
-            toolchain: '1.59.0' }
+          - target: x86_64-pc-windows-msvc
+            os: windows-latest
+          - target: x86_64-unknown-linux-gnu
+            os: ubuntu-latest
+          - target: x86_64-apple-darwin
+            os: macos-latest
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v3
         with:
-          node-version: '14'
+          node-version: 16
       - uses: actions-rs/toolchain@v1
         with:
-          toolchain: ${{ matrix.platform.toolchain }}
+          toolchain: stable
           target: ${{ matrix.platform.os }}
+          profile: minimal
           override: true
-          default: true
       - name: install Linux dependencies
         if: contains(matrix.platform.target, 'unknown-linux')
         run: |
