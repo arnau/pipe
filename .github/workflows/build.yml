@@ -19,6 +19,15 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 16
+      - name: config rocksdb
+        run: |
+          brew install cmake
+          rustup target add x86_64-apple-darwin
+          rustup target add aarch64-apple-darwin
+          cargo build --release --locked --target x86_64-apple-darwin
+          cargo build --release --locked --target aarch64-apple-darwin
+          
+          
       - uses: dtolnay/rust-toolchain@stable
         with:
           target: ${{ matrix.platform.target }}
