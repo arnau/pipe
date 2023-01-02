@@ -7,7 +7,6 @@ license = ""
 repository = ""
 default-run = "app"
 edition = "2021"
-rust-version = "1.59"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
@@ -15,18 +14,18 @@ rust-version = "1.59"
 tauri-build = { version = "1.2.1", features = [] }
 
 [dependencies]
+tokio = { version = "1", features = ["full"] }
+rocksdb = { version = "0.19" }
+# rocksdb = { version = "0.19.0", default-features = false, features = ["zlib"] }
 serde_json = "1.0"
 serde = { version = "1.0", features = ["derive"] }
-tauri = { version = "1.2.2", features = [] }
-tokio = { version = "1", features = ["full"] }
 # surrealdb = { version = "1.0.0-beta.8", default-features = false, features = [
 #   "parallel",
 #   "kv-mem",
 #   "kv-rocksdb",
 # ] }
 anyhow = "1.0"
-rocksdb = { version = "0.19.0" }
-# rocksdb = { version = "0.19.0", default-features = false, features = ["zlib"] }
+tauri = { version = "1.2", features = [] }
 
 
 [features]
