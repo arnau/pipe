@@ -58,6 +58,7 @@ jobs:
           brew install cmake
       - run: npm install
       - run: |
+          mkdir dist
           cd src-tauri
           cargo build --release --locked
       - run: npm run tauri build
