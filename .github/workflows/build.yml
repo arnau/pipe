@@ -28,5 +28,36 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y webkit2gtk-4.0 libayatana-appindicator3-dev
+      - name: install MacOS dependencies
+        if: contains(matrix.platform.target, 'apple-darwin')
+        run: |
+          brew install cmake
       - run: npm install
+      - run: npm run tauri build
+  phased:
+    name: Phased build
+    runs-on: ${{ matrix.platform.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        platform:
+          - target: x86_64-apple-darwin
+            os: macos-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          target: ${{ matrix.platform.target }}
+          components: rust-src
+      - name: install MacOS dependencies
+        if: contains(matrix.platform.target, 'apple-darwin')
+        run: |
+          brew install cmake
+      - run: npm install
+      - run: |
+          cd src-tauri
+          cargo build --release --locked
       - run: npm run tauri build
